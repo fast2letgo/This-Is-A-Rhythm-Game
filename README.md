@@ -1,4 +1,5 @@
 # This-Is-A-Rhythm-Game
+Project Timeline: 6/4/2026 - 6/20/2026
 A 2 week Roblox Studio project to learn about mania rhythm games
 
 I've decided to open source my rhythm game tech demo for others to learn as well. Everything will be documented to the best of my abilities
