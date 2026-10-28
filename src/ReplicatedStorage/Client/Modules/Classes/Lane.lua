@@ -20,7 +20,7 @@ function Lane.new(index: number, input: Enum.KeyCode, controller)
 end
 
 function Lane:init()
-	
+	-- Insert connections upon initialization
 	table.insert(
 		self.Connections,
 		UIS.InputBegan:Connect(function(input, gp)
@@ -48,7 +48,8 @@ function Lane:init()
 	)
 end
 
-function Lane:onPress(state: boolean)	
+function Lane:onPress(state: boolean)
+	-- self.Notes[1] gets the earliest note that spawns in the lane	
 	local note = self.Notes[1]
 	if note then
 		note:onNotePress(self.Controller.CurrentBeat, state)
@@ -60,12 +61,14 @@ function Lane:update()
 	
 	if note then		
 		if note.Hit == true or note.Miss == true then
+			-- Remove the Note from the Lane
 			table.remove(self.Notes, 1)
 		end
 	end
 end
 
 function Lane:Destroy()
+	-- Destroys all connections and clears tables
 	for _,v in self.Connections do
 		v:Disconnect()
 	end

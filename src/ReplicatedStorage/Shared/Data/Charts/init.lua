@@ -4,6 +4,7 @@ local Charts = {}
 local cache = {}
 local init = false
 
+-- Load all the charts and store it in cache to be retrieved later
 function Charts.Init()
 	if init == true then
 		warn("Charts already initialized")
@@ -39,6 +40,7 @@ function Charts.Get(id: string|"All"): Chart?
 	return chart
 end
 
+-- Custom type for charts (Autocomplete)
 export type Chart = {
 	Id: string,
 	Name: string,

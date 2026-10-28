@@ -1,3 +1,4 @@
+-- Load client things first using ReplicatedFirst
 local RepF = game:GetService('ReplicatedFirst')
 local SS = game:GetService('SoundService')
 local ConP = game:GetService('ContentProvider')

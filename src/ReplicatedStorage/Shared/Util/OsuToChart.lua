@@ -2,6 +2,7 @@ local RepS = game:GetService('ReplicatedStorage')
 
 local RhythmService = require(RepS.Client.Modules.Services.RhythmService)
 
+-- these numbers refer to the lanes in osu
 local laneMap = {
 	[64] = 1,
 	[192] = 2,
@@ -9,7 +10,7 @@ local laneMap = {
 	[448] = 4,
 }
 
-
+-- "osu" refers to the giant text file that osu!mania has to create charts
 return function(osu: string)
 	local finalChart = {}
 	
@@ -30,15 +31,16 @@ return function(osu: string)
 		
 		local values = string.split(str, ",") -- separate each value
 		
-		local x = tonumber(values[1])
-		local timeMS = tonumber(values[3])
-		local noteType = tonumber(values[4])
+		local x = tonumber(values[1]) -- x is the lane index
+		local timeMS = tonumber(values[3]) -- MS is the miliseconds where the note hits the line
+		local noteType = tonumber(values[4]) -- hold note or normal note
 	
 		local lane = laneMap[x]
 		
+		-- My charting data defines a note as an array with a Lane property and Beat property
 		local note = {
-			Lane = lane,
-			Beat = RhythmService.MillisecondsToBeat(timeMS, BPM)
+			Lane = lane, -- easy stuff, usually 1-4
+			Beat = RhythmService.MillisecondsToBeat(timeMS, BPM) -- converts miliseconds into beat number
 		}
 		
 		if noteType == 128 then
@@ -46,6 +48,7 @@ return function(osu: string)
 			local endMS = tonumber(holdInfo[1])
 
 			note.EndBeat = RhythmService.MillisecondsToBeat(endMS, BPM)
+			-- if its a hold note, we add the EndBeat property which is the beat number where a note ends
 		end
 		
 		table.insert(finalChart, note)
@@ -53,16 +56,14 @@ return function(osu: string)
 	
 	local copyPaste = "Notes = {\n"
 	
-	--dev note: no idea how any of this works, but it works
-	-- thanks chatgpt
+	-- loop through the final chart array and convert it all into a string that can be copy and pasted through the output
 	for _, note in finalChart do
 		local beat = math.round(note.Beat * 100) / 100
 
 		if note.EndBeat then
 			local endBeat = math.round(note.EndBeat * 100) / 100
 			
-			-- ALSO WTF YOU CAN JUST??
-			-- text ..= "MORE TEXT???"
+			-- yeah i have no idea. i had chatgpt do this
 			copyPaste ..=
 				string.format(
 					"\t{Lane = %d, Beat = %.2f, EndBeat = %.2f},\n",
@@ -82,6 +83,6 @@ return function(osu: string)
 
 	copyPaste ..= "}"
 	
---	print(`Number of notes: {#finalChart}`)
+--	trust me it works
 	print(copyPaste)
 end

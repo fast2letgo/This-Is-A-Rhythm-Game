@@ -1,3 +1,5 @@
+-- character script that prevents moving during a song 
+-- (was funny while it lasted)
 local RepS = game:GetService('ReplicatedStorage')
 
 local events = RepS.Client.Events

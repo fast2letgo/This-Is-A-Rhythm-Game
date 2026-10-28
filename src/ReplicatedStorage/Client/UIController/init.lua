@@ -8,6 +8,8 @@ local UIController = {
 	GUIS = {}
 }
 
+-- Each GUI is a module script that holds a ScreenGUI
+-- Each module has an init function and other helper functions specific for that UI
 function UIController.Init()	
 	for _,v in guiFolder:GetChildren() do
 		if not v:IsA('ModuleScript') then
@@ -36,6 +38,7 @@ function UIController.Init()
 	end	
 end
 
+-- literally never used this function lmao
 function UIController.ToggleUI(name: string, enabled: boolean)
 	local gui = UIController.GUIS[name].UI :: ScreenGui
 
